@@ -16,9 +16,9 @@ public class School {
     @Setter(AccessLevel.NONE)
     private final String id;
     private String name;
-    private HashMap<String, Teacher> teachers = new HashMap<>();
-    private HashMap<String, Course> courses = new HashMap<>();
-    private HashMap<String, Student> students = new HashMap<>();
+    private Map<String, Teacher> teachers = new HashMap<>();
+    private Map<String, Course> courses = new HashMap<>();
+    private Map<String, Student> students = new HashMap<>();
 
     public School(String name) {
         id = UUID.randomUUID().toString();
