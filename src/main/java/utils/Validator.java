@@ -9,28 +9,26 @@ public class Validator {
     }
 
     public static boolean isNameValid(String name) {
-        boolean validator = true;
-        if (!patternMatches(name, "^(?!-)[\\p{L} .'-]+$")) {
-            System.out.printf("Invalid name: %s%n", name);
-            validator = false;
-        }
-        return validator;
+        return validate(name, "^(?!-)[\\p{L} .'-]+$", String.format("Invalid name: %s", name));
     }
 
     public static boolean isNumberValid(String number, int maxNumber) {
-        boolean isValidNumber = true;
-        if (!patternMatches(number, "^(?:[1-9]|" + maxNumber + ")$")) {
-            System.out.printf("The valid range is from 1 to %s%n", maxNumber);
-            isValidNumber = false;
-        }
-        return isValidNumber;
+        return validate(number, "^(?:[1-9]|" + maxNumber + ")$", String.format("The valid range is from 1 to %s", number));
     }
 
     public static boolean isEmailValid(String email) {
         return patternMatches(email, "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
     }
 
-    public static boolean patternMatches(String inputString, String regexPattern) {
+    private static boolean validate(String name, String pattern, String errorMessage) {
+        boolean isValidName = patternMatches(name, pattern);
+        if (!isValidName) {
+            System.err.println(errorMessage);
+        }
+        return isValidName;
+    }
+
+    private static boolean patternMatches(String inputString, String regexPattern) {
         return Pattern.compile(regexPattern)
                 .matcher(inputString)
                 .matches();
