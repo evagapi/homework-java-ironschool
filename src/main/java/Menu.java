@@ -1,4 +1,6 @@
 import com.github.lalyos.jfiglet.FigletFont;
+import model.Student;
+import model.School;
 import utils.MainMenuOption;
 import utils.MaxValue;
 import utils.Validator;
@@ -17,27 +19,58 @@ public class Menu {
     private static int numberOfStudents;
 
     public static void main(String[] args) {
-        System.out.println(FigletFont.convertOneLine(getValidNameFor("school")));
+        String name = getValidNameFor("school");
+        System.out.println(FigletFont.convertOneLine(name));
+        School school = new School(name);
         //System.out.println("Option Selected: " + showPrincipalMenuAndRetrieveOption(scanner));
         numberOfCourses = getNumberOfEntity("courses", MaxValue.MAX_COURSES_TO_CREATE.getValue());
         numberOfTeachers = getNumberOfEntity("teachers", MaxValue.MAX_TEACHER_TO_CREATE.getValue());
         numberOfStudents = getNumberOfEntity("students", MaxValue.MAX_STUDENT_TO_CREATE.getValue());
+        registerStudents(school);
+    }
+
+    private static void registerStudents(School school) {
+        for (int i = 0; i < numberOfStudents; i++) {
+            String name = getValidNameFor("student");
+            String address = getValidAddress();
+            String email = getValidEmail();
+            Student student = new Student(name, address, email);
+            school.addStudent(student);
+        }
     }
 
     private static String getValidNameFor(String entityType) {
         String name;
         do {
-            System.out.printf("Enter a %s name: ", entityType);
+            System.out.printf("Enter a %s name: %n", entityType);
             name = scanner.nextLine();
         } while (!Validator.isNameValid(name));
         return name;
+    }
+
+    private static String getValidAddress() {
+        String address;
+        do {
+            System.out.println("Enter student's address: ");
+            address = scanner.nextLine();
+        } while (!Validator.isAddressValid(address));
+        return address;
+    }
+
+    private static String getValidEmail() {
+        String email;
+        do {
+            System.out.println("Enter student's email: ");
+            email = scanner.nextLine();
+        } while (!Validator.isEmailValid(email));
+        return email;
     }
 
     private static int getNumberOfEntity(String value, int max) {
         String number;
         do {
             System.out.printf("Enter the number of %s to create (max-%d): %n", value, max);
-            number = scanner.next();
+            number = scanner.nextLine();
         } while (!Validator.isNumberValid(number, max));
         return Integer.parseInt(number);
     }
