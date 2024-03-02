@@ -31,10 +31,7 @@ public class Menu {
 
     private static void registerStudents(School school) {
         for (int i = 0; i < numberOfStudents; i++) {
-            String name = getValidNameFor("student");
-            String address = getValidAddress();
-            String email = getValidEmail();
-            Student student = new Student(name, address, email);
+            Student student = new Student(getValidNameFor("student"), getValidAddress(), getValidEmail());
             school.addStudent(student);
         }
     }
