@@ -236,7 +236,6 @@ public class School {
                 getTotalProfit();
                 break;
         }
-        scanner.close(); // Close the scanner after all inputs are read
     }
 
 }

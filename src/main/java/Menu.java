@@ -156,9 +156,7 @@ public class Menu {
         do {
             System.out.println("Enter a command: ");
             commandIndex = scanner.next();
-            if (!commandIndex.equals("0") && Validator.isPositiveNumberValid(commandIndex, (int) max - 1)) {
-                school.executeCommand(commandIndex);
-            }
+            school.executeCommand(commandIndex);
         } while (!commandIndex.equals("0") && Validator.isPositiveNumberValid(commandIndex, (int) max - 1));
     }
 
