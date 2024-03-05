@@ -1,7 +1,6 @@
 package model;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,6 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SchoolTest {
 
@@ -20,7 +18,6 @@ public class SchoolTest {
 
     static Course dummyCourse;
     static Student dummyStudent;
-    static Teacher dummyPedro;
     @BeforeAll
     static void CreateMockSchool() {
         DummySchool = new School("Marinade");
@@ -30,10 +27,12 @@ public class SchoolTest {
         DummySchool.addTeacher(dummyAnne);
         DummySchool.addCourse(dummyCourse);
         DummySchool.addStudent(dummyStudent);
+        DummySchool.assignTeacherToCourse(dummyAnne.getTeacherId(), dummyCourse.getCourseId());
+
     }
 
     @Test
-    @DisplayName("two different schools should have two different ids")
+    @DisplayName("Two different schools should have two different ids")
     void School_multipleInstancesOfSchoolDifferentIds() {
         School maristes = new School("Maristes");
         School balmes = new School("Jaume Balmes");
@@ -41,7 +40,7 @@ public class SchoolTest {
     }
 
     @Test
-    @DisplayName("subtract teachers salaries from total earned from courses")
+    @DisplayName("Subtract teachers salaries from total earned from courses")
     void School_subtractSalariesFromTotalEarnedFromCourses() {
         School balmes = new School("Jaume Balmes");
 
@@ -75,7 +74,13 @@ public class SchoolTest {
         assertEquals(1, DummySchool.getTeachers().size());
     }
 
-
+    @Test
+    @DisplayName("Should return Teacher name correctly from course")
+    void School_assignTeacherToCourse(){
+        Teacher resultTeacher = dummyCourse.getTeacher();
+        assertEquals("Anne", resultTeacher.getName());
+        assertEquals(dummyAnne.getTeacherId(), dummyCourse.getTeacher().getTeacherId());
+    }
 
     @Test
     @DisplayName("Should be the same showTeachersMethod table result")

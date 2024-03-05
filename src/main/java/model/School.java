@@ -2,12 +2,14 @@ package model;
 
 import com.mitchtalmadge.asciidata.table.ASCIITable;
 import com.mitchtalmadge.asciidata.table.formats.ASCIITableFormat;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +26,7 @@ public class School {
     private Map<String, Course> courses = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
 
+
     public School(String name, Map<String, Teacher> teachers, Map<String, Course> courses, Map<String, Student> students) {
         id = UUID.randomUUID().toString();
         this.name = name;
@@ -35,6 +38,7 @@ public class School {
     public School(String name) {
         id = UUID.randomUUID().toString();
         this.name = name;
+
     }
 
     public void addCourse(Course course) {
@@ -103,6 +107,15 @@ public class School {
 
     }
 
+    public void assignTeacherToCourse(String teacherID, String courseID) {
+        String validateTeacherID = checkID(teacherID, teachers);
+        String validateCourseID = checkID(courseID, courses);
+
+        courses.get(validateCourseID).setTeacher(teachers.get(validateTeacherID));
+    }
+
+
+
     private String checkID(String id, Map<String, ?> map) {
         if (map == teachers) {
             while (!map.containsKey(id)) {
@@ -167,6 +180,63 @@ public class School {
                 .map(teacher -> new String[]{teacher.getTeacherId(), teacher.getName(), String.valueOf(teacher.getSalary())})
                 .toArray(String[][]::new);
         System.out.println(ASCIITable.fromData(header, data));
+    }
+
+    public void executeCommand(String commandInput){
+        Scanner scanner = new Scanner(System.in);
+        switch (commandInput){
+            case "1":
+                //ENROLL [STUDENT_ID] [COURSE_ID]
+                System.out.println("Enter student ID:");
+                String studentID = scanner.next();
+                System.out.println("Enter course ID:");
+                String courseID = scanner.next();
+                enrollStudent(studentID, courseID);
+                break;
+            case "2":
+                //ASSIGN [TEACHER_ID] [COURSE_ID]
+                System.out.println("Enter teacher ID:");
+                String teacher = scanner.next();
+                System.out.println("Enter course ID:");
+                String course =  scanner.next();
+                assignTeacherToCourse(teacher, course);
+                break;
+            case  "3":
+                //SHOW COURSES
+                showCoursesMethod();
+                break;
+            case "4":
+                //LOOKUP COURSE [COURSE_ID]
+                System.out.println("Enter course ID:");
+                String courseId = scanner.next();
+                lookupCourse(courseId);
+                break;
+            case "5":
+                //SHOW STUDENTS
+                showStudentsMethod();
+                break;
+            case "6":
+                //LOOKUP STUDENT [STUDENT_ID]
+                System.out.println("Enter student ID:");
+                String studentId = scanner.next();
+                lookupStudent(studentId);
+                break;
+            case "7":
+                //SHOW TEACHERS
+                showTeachersMethod();
+                break;
+            case "8":
+                //LOOKUP TEACHER [TEACHER_ID]
+                System.out.println("Enter teacher ID:");
+                String teacherId = scanner.next();
+                lookupTeacher(teacherId);
+                break;
+            case "9":
+                //SHOW PROFIT
+                getTotalProfit();
+                break;
+        }
+        scanner.close(); // Close the scanner after all inputs are read
     }
 
 }

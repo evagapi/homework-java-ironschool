@@ -16,7 +16,16 @@ public class Menu {
     private static School school;
 
     public static void main(String[] args) {
-        // school = createSchool();
+
+        Course newCourse = new Course("Etica", 2000);
+        Teacher newTeacher = new Teacher("Pedro", 2500);
+        Student newStudent = new Student("Mariano", "Calle falsa 123,", "Mariano@ejemplo.com");
+
+        school = createSchool();
+
+        school.addTeacher(newTeacher);
+        school.addCourse(newCourse);
+        school.addStudent(newStudent);
         // showPrincipalMenuAndRetrieveOption(scanner)
 
         // int numberOfTeachers = getNumberOfEntity("teachers", MaxValue.MAX_TEACHER_TO_CREATE.getValue());
@@ -29,6 +38,7 @@ public class Menu {
         // registerCourses(numberOfCourses);
 
         menuOfCommands();
+
     }
 
     public static School createSchool() {
@@ -146,8 +156,10 @@ public class Menu {
         do {
             System.out.println("Enter a command: ");
             commandIndex = scanner.next();
-        } while (!commandIndex.equals("0") && !Validator.isPositiveNumberValid(commandIndex, (int) max - 1));
-
+            if (!commandIndex.equals("0") && Validator.isPositiveNumberValid(commandIndex, (int) max - 1)) {
+                school.executeCommand(commandIndex);
+            }
+        } while (!commandIndex.equals("0") && Validator.isPositiveNumberValid(commandIndex, (int) max - 1));
     }
 
 }
