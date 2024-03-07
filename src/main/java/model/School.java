@@ -1,15 +1,12 @@
 package model;
 
 import com.mitchtalmadge.asciidata.table.ASCIITable;
-import com.mitchtalmadge.asciidata.table.formats.ASCIITableFormat;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -93,6 +90,7 @@ public class School {
         String[] header = {"ID", "Students", "Email-Students"};
         String[][] data = students.values().stream().map(student -> new String[]{student.getStudentId(), student.getName(), student.getEmail()}).toArray(String[][]::new);
         System.out.println(ASCIITable.fromData(header, data));
+
     }
 
     public void enrollStudent(String studentID, String courseID) {
@@ -112,6 +110,7 @@ public class School {
         String validateCourseID = checkID(courseID, courses);
 
         courses.get(validateCourseID).setTeacher(teachers.get(validateTeacherID));
+
     }
 
 
@@ -180,6 +179,7 @@ public class School {
                 .map(teacher -> new String[]{teacher.getTeacherId(), teacher.getName(), String.valueOf(teacher.getSalary())})
                 .toArray(String[][]::new);
         System.out.println(ASCIITable.fromData(header, data));
+
     }
 
     public void executeCommand(String commandInput){
@@ -233,9 +233,11 @@ public class School {
                 break;
             case "9":
                 //SHOW PROFIT
-                getTotalProfit();
+                double Result = getTotalProfit();
+                System.out.println(Result);
                 break;
         }
+
     }
 
 }
